@@ -1,0 +1,44 @@
+﻿/* Màu xanh lá nhẹ nhàng, kiểu lá trà sữa latte */
+.navbar-custom {
+    background-color: #a8d5ba; /* xanh lá pastel dịu mắt */
+    box-shadow: 0 2px 6px rgba(107, 71, 51, 0.3); /* bóng nhẹ màu nâu */
+}
+
+    .navbar-custom .navbar-brand {
+        color: #6b4733; /* nâu đậm */
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .navbar-custom .nav-link {
+        color: #5a3e1b; /* nâu vừa phải */
+        font-weight: 500;
+    }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #3d2f1c; /* nâu đậm hơn khi hover/active */
+            text-decoration: underline;
+        }
+
+    .navbar-custom .navbar-toggler {
+        border-color: #6b4733;
+    }
+
+    .navbar-custom .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' " + "xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%236b4733' stroke-width='2' " + "stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    /* Dropdown menu */
+    .navbar-custom .dropdown-menu {
+        background-color: #d6e7d3; /* xanh lá nhạt hơn */
+        border: 1px solid #6b4733;
+    }
+
+    .navbar-custom .dropdown-item {
+        color: #5a3e1b;
+    }
+
+        .navbar-custom .dropdown-item:hover {
+            background-color: #a8d5ba;
+            color: #3d2f1c;
+        }
