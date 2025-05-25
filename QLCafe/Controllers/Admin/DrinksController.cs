@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using QLCafe.Data;
 using QLCafe.Models;
 
-namespace QLCafe.Controllers
+namespace QLCafe.Controllers.Admin
 {
     public class DrinksController : Controller
     {
@@ -48,7 +48,7 @@ namespace QLCafe.Controllers
         // GET: Drinks/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
         }
 
@@ -57,15 +57,27 @@ namespace QLCafe.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DrinkId,Rating,DrinkName,Price,Des,ImgUrl,CategoryId")] Drink drink)
+        public async Task<IActionResult> Create([Bind("DrinkId,DrinkName,Price,Des,ImgUrl,CategoryId")] Drink drink)
         {
             if (ModelState.IsValid)
             {
+                drink.Rating = 0;
                 _context.Add(drink);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", drink.CategoryId);
+            if (!ModelState.IsValid)
+            {
+                foreach (var value in ModelState.Values)
+                {
+                    foreach (var error in value.Errors)
+                    {
+                        Console.WriteLine(error.ErrorMessage); // Hoặc log ra file/log system
+                    }
+                }
+            }
+
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", drink.CategoryId);
             return View(drink);
         }
 
@@ -82,7 +94,7 @@ namespace QLCafe.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", drink.CategoryId);
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", drink.CategoryId);
             return View(drink);
         }
 
@@ -118,7 +130,7 @@ namespace QLCafe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", drink.CategoryId);
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", drink.CategoryId);
             return View(drink);
         }
 

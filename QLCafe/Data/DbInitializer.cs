@@ -27,7 +27,7 @@ namespace QLCafe.Data
                 {
                     UserName = "admin",
                     Email = "admin@example.com",
-                    PhoneNum = "123456789",
+                    PhoneNumber = "123456789",
                     Address = "Admin Address"
                 };
 

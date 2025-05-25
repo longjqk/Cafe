@@ -17,7 +17,7 @@ namespace QLCafe.ViewModels
         public string ConfirmPassword { get; set; } = string.Empty;
 
         [Required]
-        public string PhoneNum { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
         public string Address { get; set; } = string.Empty;

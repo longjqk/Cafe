@@ -42,11 +42,31 @@ namespace QLCafe.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+
+                // Lấy user hiện tại
+                var user = await _userManager.FindByNameAsync(model.UserName);
+
+                // Kiểm tra role của user
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    // Nếu là Admin, chuyển đến trang Admin
+                    return RedirectToAction("Index", "Drinks");
+                }
+                else if (await _userManager.IsInRoleAsync(user, "Customer"))
+                {
+                    // Nếu là Customer, chuyển đến trang Customer
+                    return RedirectToAction("Index", "Orders");
+                }
+                else
+                {
+                    await _signInManager.SignOutAsync();
+                    ModelState.AddModelError(string.Empty, "Tài khoản không có quyền truy cập.");
+                    return View("Login", model);
+                }
             }
             else
             {
-                Console.WriteLine($"Đăng nhập thất bại: {result.ToString()}");
+                ModelState.AddModelError(string.Empty, "Sai mật khẩu hoặc tên đăng nhập rồi");
             }
             return View(model);
         }
@@ -54,12 +74,14 @@ namespace QLCafe.Controllers
 
         
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -67,13 +89,17 @@ namespace QLCafe.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
-                    PhoneNum = model.PhoneNum ?? "",
-                    Address = model.Address ?? ""
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber, 
+                    Address = model.Address
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Customer");
+
+                    TempData["SuccessMessage"] = "Đăng ký thành công";
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Login", "Account");
                 }

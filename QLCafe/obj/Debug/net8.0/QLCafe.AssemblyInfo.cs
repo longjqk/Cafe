@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QLCafe")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f047f20c476b6032f3b87abc0d83c69bb12df939")]
 [assembly: System.Reflection.AssemblyProductAttribute("QLCafe")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QLCafe")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
