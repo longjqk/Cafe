@@ -8,7 +8,7 @@
 
 <h4>Drink</h4>
 <hr />
-@* @if (!ViewData.ModelState.IsValid)
+@if (!ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger">
         <ul>
@@ -21,10 +21,10 @@
             }
         </ul>
     </div>
-} *@
+}
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @* <div class="form-group">
                 <label asp-for="Rating" class="control-label"></label>
@@ -47,9 +47,9 @@
                 <span asp-validation-for="Des" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImgUrl" class="control-label"></label>
-                <input asp-for="ImgUrl" class="form-control" />
-                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                <label class="control-label">Chọn ảnh</label>
+                <input type="file" name="file" class="form-control" />
+                @Html.ValidationMessage("file", null, new { @class = "text-danger" }) <!-- Thêm dòng này -->
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>

@@ -12,10 +12,9 @@ namespace QLCafe.Models
         public double Price { get; set; }
         [Required(ErrorMessage = "Mô tả không được để trống")]
         public string Des { get; set; } = null!;
-        [Required(ErrorMessage = "Link hình ảnh không được để trống")]
-        public string ImgUrl { get; set; } = null!;
+        
+        public string? ImgUrl { get; set; }
         public int CategoryId { get; set; }
-
         public Category? Category { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();

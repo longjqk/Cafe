@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,11 @@ namespace QLCafe.Controllers.Admin
     public class DrinksController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public DrinksController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _webHost;
+        public DrinksController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            _webHost = webHost;
         }
 
         // GET: Drinks
@@ -46,6 +48,7 @@ namespace QLCafe.Controllers.Admin
         }
 
         // GET: Drinks/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -57,10 +60,41 @@ namespace QLCafe.Controllers.Admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DrinkId,DrinkName,Price,Des,ImgUrl,CategoryId")] Drink drink)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(IFormFile file, [Bind("DrinkId,DrinkName,Price,Des,ImgUrl,CategoryId")] Drink drink)
         {
+            if (file == null)
+            {
+                ModelState.AddModelError("file", "Vui lòng chọn ảnh");
+            }
             if (ModelState.IsValid)
             {
+                if (file != null && file.Length > 0)
+                {
+                    string uploadFolder = Path.Combine(_webHost.WebRootPath, "images");
+                    if (!Directory.Exists(uploadFolder))
+                    {
+                        Directory.CreateDirectory(uploadFolder);
+
+                    }
+                    string fileName = Path.GetFileName(file.FileName);
+                    string fileSavePath = Path.Combine(uploadFolder, fileName);
+
+                    using(FileStream stream = new FileStream(fileSavePath, FileMode.Create))
+                    {
+                         await file.CopyToAsync(stream);
+                    }
+
+                    drink.ImgUrl = "/images/" + fileName;
+                }
+                else
+                {
+                    ModelState.AddModelError("file", "Vui lòng chọn ảnh.");
+                    ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", drink.CategoryId);
+                    return View(drink);
+                }
+
+
                 drink.Rating = 0;
                 _context.Add(drink);
                 await _context.SaveChangesAsync();
@@ -82,6 +116,7 @@ namespace QLCafe.Controllers.Admin
         }
 
         // GET: Drinks/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -103,6 +138,7 @@ namespace QLCafe.Controllers.Admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("DrinkId,Rating,DrinkName,Price,Des,ImgUrl,CategoryId")] Drink drink)
         {
             if (id != drink.DrinkId)
@@ -135,6 +171,7 @@ namespace QLCafe.Controllers.Admin
         }
 
         // GET: Drinks/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +193,7 @@ namespace QLCafe.Controllers.Admin
         // POST: Drinks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var drink = await _context.Drinks.FindAsync(id);

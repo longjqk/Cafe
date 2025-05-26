@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Rc8FH6Zg2vLTpu+sFGZbTGdC5lsPPsyuM/gLY+gPVpY=",
+  "Hash": "2F3L3rvE17iD9sJ8kRFFTDB3gZQLoTLM810vHUcr+7w=",
   "Source": "QLCafe",
   "BasePath": "_content/QLCafe",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\wwwroot\\images\\C2-500ml.png",
+      "SourceId": "QLCafe",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\wwwroot\\",
+      "BasePath": "_content/QLCafe",
+      "RelativePath": "images/C2-500ml.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\C2-500ml.png"
     },
     {
       "Identity": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\wwwroot\\js\\site.js",

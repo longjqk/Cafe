@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\wwwroot\\images\\C2-500ml.png",
+      "PackagePath": "staticwebassets\\images\\C2-500ml.png"
+    },
+    {
       "Id": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
