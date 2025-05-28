@@ -7,7 +7,7 @@
         public DateTime CreatedAt { get; set; }
         public double TotalAmout { get; set; }
         public string PaymentMethod { get; set; } = null!;
+        public Order? Order { get; set; }
 
-        public Order Order { get; set; } = null!;
     }
 }

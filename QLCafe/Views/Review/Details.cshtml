@@ -1,0 +1,26 @@
+﻿@model QLCafe.Models.Review
+
+@{
+    ViewData["Title"] = "Review Details";
+}
+
+<h1>Review Details</h1>
+
+<div>
+    <h4>Review</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Rating</dt>
+        <dd class="col-sm-10">@Model.Rating</dd>
+        <dt class="col-sm-2">Comment</dt>
+        <dd class="col-sm-10">@Model.Comment</dd>
+        <dt class="col-sm-2">User</dt>
+        <dd class="col-sm-10">@Model.User.UserName</dd>
+        <dt class="col-sm-2">Drink</dt>
+        <dd class="col-sm-10">@Model.Drink.DrinkName</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

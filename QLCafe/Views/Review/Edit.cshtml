@@ -1,0 +1,28 @@
+﻿@model QLCafe.Models.Review
+
+@{
+    ViewData["Title"] = "Edit Review";
+}
+
+<h1>Edit Review</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="ReviewId" />
+    <div class="form-group">
+        <label asp-for="Rating"></label>
+        <input asp-for="Rating" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Comment"></label>
+        <input asp-for="Comment" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UserId"></label>
+        <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DrinkId"></label>
+        <select asp-for="DrinkId" class="form-control" asp-items="ViewBag.DrinkId"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

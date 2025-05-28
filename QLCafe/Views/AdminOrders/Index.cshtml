@@ -1,0 +1,35 @@
+﻿@model IEnumerable<QLCafe.Models.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Status</th>
+            <th>Order Date</th>
+            <th>Total Items</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                <td>@item.User?.UserName</td>
+                <td>@item.Status</td>
+                <td>@item.OrderDate.ToString("g")</td>
+                <td>@item.OrderDetails.Count()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

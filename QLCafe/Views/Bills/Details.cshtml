@@ -1,0 +1,33 @@
+﻿@model QLCafe.Models.Bill
+
+@{
+    ViewData["Title"] = "Bill Details";
+}
+
+<h1>Bill Details</h1>
+
+<div>
+    <h4>Bill</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Bill ID</dt>
+        <dd class="col-sm-10">@Model.BillId</dd>
+
+        <dt class="col-sm-2">Order ID</dt>
+        <dd class="col-sm-10">@Model.OrderId</dd>
+
+        <dt class="col-sm-2">Created At</dt>
+        <dd class="col-sm-10">@Model.CreatedAt</dd>
+
+        <dt class="col-sm-2">Total Amount</dt>
+        <dd class="col-sm-10">@Model.TotalAmout</dd>
+
+        <dt class="col-sm-2">Payment Method</dt>
+        <dd class="col-sm-10">@Model.PaymentMethod</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.BillId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

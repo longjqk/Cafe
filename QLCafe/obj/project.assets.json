@@ -7930,11 +7930,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\QLCafe.csproj",
+      "projectUniqueName": "D:\\Mlong\\Cafe-main\\QLCafe\\QLCafe.csproj",
       "projectName": "QLCafe",
-      "projectPath": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\QLCafe.csproj",
+      "projectPath": "D:\\Mlong\\Cafe-main\\QLCafe\\QLCafe.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\obj\\",
+      "outputPath": "D:\\Mlong\\Cafe-main\\QLCafe\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

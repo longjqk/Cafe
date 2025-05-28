@@ -1,0 +1,38 @@
+﻿@model QLCafe.Models.Bill
+
+@{
+    ViewData["Title"] = "Edit Bill";
+}
+
+<h1>Edit Bill</h1>
+
+<hr />
+<form asp-action="Edit">
+    <input type="hidden" asp-for="BillId" />
+    <div class="form-group">
+        <label asp-for="OrderId" class="control-label"></label>
+        <select asp-for="OrderId" class="form-control" asp-items="ViewBag.OrderId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="CreatedAt" class="control-label"></label>
+        <input asp-for="CreatedAt" class="form-control" />
+        <span asp-validation-for="CreatedAt" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalAmout" class="control-label"></label>
+        <input asp-for="TotalAmout" class="form-control" />
+        <span asp-validation-for="TotalAmout" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PaymentMethod" class="control-label"></label>
+        <input asp-for="PaymentMethod" class="form-control" />
+        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

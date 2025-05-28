@@ -1,0 +1,37 @@
+﻿@model QLCafe.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order Details</h1>
+
+<div>
+    <h4>Order ID: @Model.OrderId</h4>
+    <p><strong>User:</strong> @Model.User?.UserName</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+    <p><strong>Order Date:</strong> @Model.OrderDate.ToString("f")</p>
+</div>
+
+<h4>Order Items</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Drink</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <tr>
+                <td>@detail.Drink?.DrinkName</td>
+                <td>@detail.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index">Back to List</a>
+</p>

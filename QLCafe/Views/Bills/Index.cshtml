@@ -1,0 +1,41 @@
+﻿@model IEnumerable<QLCafe.Models.Bill>
+
+@{
+    ViewData["Title"] = "Bills";
+}
+
+<h1>Bills</h1>
+
+<p>
+    <a asp-action="Create">Create New Bill</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Bill ID</th>
+            <th>Order ID</th>
+            <th>Created At</th>
+            <th>Total Amount</th>
+            <th>Payment Method</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BillId</td>
+                <td>@item.OrderId</td>
+                <td>@item.CreatedAt.ToString("g")</td>
+                <td>@item.TotalAmout</td>
+                <td>@item.PaymentMethod</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BillId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.BillId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BillId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

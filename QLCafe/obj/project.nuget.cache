@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "a5cr6YrEtYk=",
+  "dgSpecHash": "LYixr+ppoKE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\source\\repos\\QLCafe\\QLCafe\\QLCafe.csproj",
+  "projectFilePath": "D:\\Mlong\\Cafe-main\\QLCafe\\QLCafe.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
