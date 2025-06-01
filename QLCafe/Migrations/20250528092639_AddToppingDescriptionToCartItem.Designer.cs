@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLCafe.Data;
 
@@ -11,9 +12,11 @@ using QLCafe.Data;
 namespace QLCafe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528092639_AddToppingDescriptionToCartItem")]
+    partial class AddToppingDescriptionToCartItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -295,10 +298,6 @@ namespace QLCafe.Migrations
                     b.Property<string>("ToppingDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("ToppingPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("CartItemId");
 
                     b.HasIndex("CartId");
@@ -306,33 +305,6 @@ namespace QLCafe.Migrations
                     b.HasIndex("DrinkId");
 
                     b.ToTable("CartItems");
-                });
-
-            modelBuilder.Entity("QLCafe.Models.CartItemTopping", b =>
-                {
-                    b.Property<int>("CartItemToppingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemToppingId"));
-
-                    b.Property<int>("CartItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToppingId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("ToppingPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("CartItemToppingId");
-
-                    b.HasIndex("CartItemId");
-
-                    b.HasIndex("ToppingId");
-
-                    b.ToTable("CartItemToppings");
                 });
 
             modelBuilder.Entity("QLCafe.Models.Category", b =>
@@ -374,9 +346,8 @@ namespace QLCafe.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -506,9 +477,8 @@ namespace QLCafe.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToppingId"));
 
-                    b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("ToppingName")
                         .IsRequired()
@@ -611,25 +581,6 @@ namespace QLCafe.Migrations
                     b.Navigation("Drink");
                 });
 
-            modelBuilder.Entity("QLCafe.Models.CartItemTopping", b =>
-                {
-                    b.HasOne("QLCafe.Models.CartItem", "CartItem")
-                        .WithMany("CartItemToppings")
-                        .HasForeignKey("CartItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QLCafe.Models.Topping", "Topping")
-                        .WithMany("CartItemToppings")
-                        .HasForeignKey("ToppingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CartItem");
-
-                    b.Navigation("Topping");
-                });
-
             modelBuilder.Entity("QLCafe.Models.Drink", b =>
                 {
                     b.HasOne("QLCafe.Models.Category", "Category")
@@ -723,11 +674,6 @@ namespace QLCafe.Migrations
                     b.Navigation("CartItems");
                 });
 
-            modelBuilder.Entity("QLCafe.Models.CartItem", b =>
-                {
-                    b.Navigation("CartItemToppings");
-                });
-
             modelBuilder.Entity("QLCafe.Models.Category", b =>
                 {
                     b.Navigation("Drinks");
@@ -756,8 +702,6 @@ namespace QLCafe.Migrations
 
             modelBuilder.Entity("QLCafe.Models.Topping", b =>
                 {
-                    b.Navigation("CartItemToppings");
-
                     b.Navigation("OrderDetailToppings");
                 });
 #pragma warning restore 612, 618

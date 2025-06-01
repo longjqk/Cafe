@@ -13,7 +13,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Bill ID</th>
             <th>Order ID</th>
             <th>Created At</th>
             <th>Total Amount</th>
@@ -25,7 +24,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.BillId</td>
+
                 <td>@item.OrderId</td>
                 <td>@item.CreatedAt.ToString("g")</td>
                 <td>@item.TotalAmout</td>

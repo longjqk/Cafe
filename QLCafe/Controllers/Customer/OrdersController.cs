@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,30 +11,48 @@ using QLCafe.Models;
 
 namespace QLCafe.Controllers.Customer
 {
+    
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Customer/Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.User);
-            return View(await applicationDbContext.ToListAsync());
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            var orders = await _context.Orders
+                .Where(o => o.UserId == user.Id) // lọc theo user hiện tại
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Drink)
+                .ToListAsync();
+
+            return View(orders);
         }
 
         // GET: Customer/Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            //if (user == null) return RedirectToAction("Login", "Account");
+
             if (id == null) return NotFound();
 
             var order = await _context.Orders
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+           .Include(o => o.OrderDetails)
+               .ThenInclude(od => od.Drink)
+           .Include(o => o.OrderDetails)
+               .ThenInclude(od => od.OrderDetailToppings)
+                   .ThenInclude(ot => ot.Topping)
+           .FirstOrDefaultAsync(m => m.OrderId == id && m.UserId == user.Id);
             if (order == null) return NotFound();
 
             return View(order);

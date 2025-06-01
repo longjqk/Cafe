@@ -22,10 +22,16 @@ namespace QLCafe.Controllers.Admin
         }
 
         // GET: Drinks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.Drinks.Include(d => d.Category);
-            return View(await applicationDbContext.ToListAsync());
+            
+            var drinks = _context.Drinks.Include(d => d.Category).AsQueryable(); ;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                drinks = drinks.Where(d => d.DrinkName.Contains(searchString));
+            }
+            return View(await drinks.ToListAsync());
         }
 
         // GET: Drinks/Details/5
@@ -43,6 +49,9 @@ namespace QLCafe.Controllers.Admin
             {
                 return NotFound();
             }
+            var toppings = await _context.Toppings.ToListAsync(); // Lấy tất cả topping
+
+            ViewBag.Toppings = toppings; // Gửi xuống View
 
             return View(drink);
         }

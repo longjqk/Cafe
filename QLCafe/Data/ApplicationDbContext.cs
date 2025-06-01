@@ -4,6 +4,7 @@ using QLCafe.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Reflection.Emit;
 
 namespace QLCafe.Data
 {
@@ -24,6 +25,8 @@ namespace QLCafe.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<OrderDetailTopping> OrderDetailToppings { get; set; }
+        public DbSet<CartItemTopping> CartItemToppings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -78,6 +81,22 @@ namespace QLCafe.Data
                 .HasForeignKey(ci => ci.DrinkId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<CartItem>()
+                .Property(ci => ci.ToppingPrice)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Drink>()
+                .Property(d => d.Price)
+                .HasPrecision(10, 2); // 10 chữ số, 2 chữ số sau dấu thập phân
+
+            builder.Entity<Topping>()
+                .Property(t => t.Price)
+                .HasPrecision(10, 2);
+
+            builder.Entity<CartItemTopping>()
+                .Property(c => c.ToppingPrice)
+                .HasPrecision(18, 2);
+
             // Quan hệ OrderDetail - Order
             builder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
@@ -112,6 +131,21 @@ namespace QLCafe.Data
                 .WithMany(t => t.OrderDetailToppings)
                 .HasForeignKey(odt => odt.ToppingId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Quan hệ CartItemTopping - CartItem
+            builder.Entity<CartItemTopping>()
+                .HasOne(cit => cit.CartItem)
+                .WithMany(ci => ci.CartItemToppings)
+                .HasForeignKey(cit => cit.CartItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Quan hệ CartItemTopping - Topping
+            builder.Entity<CartItemTopping>()
+                .HasOne(cit => cit.Topping)
+                .WithMany(t => t.CartItemToppings)
+                .HasForeignKey(cit => cit.ToppingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLCafe.Data;
 
@@ -11,9 +12,11 @@ using QLCafe.Data;
 namespace QLCafe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528124852_ChangeDrinkPriceToDecimal")]
+    partial class ChangeDrinkPriceToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,10 +325,6 @@ namespace QLCafe.Migrations
                     b.Property<int>("ToppingId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ToppingPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("CartItemToppingId");
 
                     b.HasIndex("CartItemId");
@@ -375,8 +374,7 @@ namespace QLCafe.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -506,9 +504,8 @@ namespace QLCafe.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToppingId"));
 
-                    b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("ToppingName")
                         .IsRequired()

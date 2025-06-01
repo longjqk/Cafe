@@ -55,7 +55,7 @@ namespace QLCafe.Controllers
                 else if (await _userManager.IsInRoleAsync(user, "Customer"))
                 {
                     // Nếu là Customer, chuyển đến trang Customer
-                    return RedirectToAction("Index", "Drinks");
+                    return RedirectToAction("IndexDrinkCustomer", "DrinksCustomer");
                 }
                 else
                 {

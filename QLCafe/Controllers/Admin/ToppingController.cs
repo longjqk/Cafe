@@ -20,6 +20,25 @@ namespace QLCafe.Controllers
             return View(await _context.Toppings.ToListAsync());
         }
 
+        // GET: Drinks/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var topping = await _context.Toppings
+               
+        //        .FirstOrDefaultAsync(m => m.ToppingId == id);
+        //    if (topping == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(topping);
+        //}
+
         // GET: Topping/Create
         public IActionResult Create()
         {

@@ -9,7 +9,7 @@ namespace QLCafe.Models
         [Required(ErrorMessage = "Tên đồ uống không được để trống")]
         public string DrinkName { get; set; } = null!;
         [Range(1000, 1000000, ErrorMessage = "Giá phải từ 1,000 đến 1,000,000")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         [Required(ErrorMessage = "Mô tả không được để trống")]
         public string Des { get; set; } = null!;
         

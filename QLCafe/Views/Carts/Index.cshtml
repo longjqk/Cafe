@@ -5,7 +5,21 @@
 }
 
 <h1 class="mb-4">Giỏ hàng của bạn</h1>
+<h3>
+    <a asp-action="Index" asp-controller="Drinks">Back to List</a>
+</h3>
 
+<div id="alertBox" class="alert alert-warning alert-dismissible fade d-none" role="alert">
+    <span id="alertMessage">Vui lòng chọn ít nhất một sản phẩm để mua.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" id="selectAll" />
+    <label class="form-check-label" for="selectAll">
+        Chọn tất cả
+    </label>
+</div>
 @if (Model == null || Model.CartItems == null || !Model.CartItems.Any())
 {
     <div class="alert alert-info">Giỏ hàng của bạn đang trống.</div>
@@ -13,22 +27,37 @@
 else
 {
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
         @foreach (var item in Model.CartItems)
         {
+
             <div class="col">
                 <div class="card h-100 shadow-sm">
                     <img src="@item.Drink.ImgUrl" class="card-img-top" alt="@item.Drink.DrinkName" style="height: 200px; object-fit: cover;" />
                     <div class="card-body d-flex flex-column">
+
+                        <!-- ✅ Checkbox để chọn mua -->
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input selectedItem" value="@item.CartItemId" id="check_@item.CartItemId" />
+                            <label class="form-check-label" for="check_@item.CartItemId">Chọn mua</label>
+                        </div>
+
                         <h5 class="card-title">@item.Drink.DrinkName</h5>
                         <p class="card-text text-muted">Giá: @item.Drink.Price.ToString("N0") đ</p>
+                        <p class="card-text text-muted">Mô tả: @item.Drink.Des</p>
+                        <p class="card-text text-muted">Topping: @item.ToppingDescription</p>
 
+                        <!-- ✅ Form riêng để cập nhật số lượng -->
                         <form asp-action="UpdateQuantity" method="post" class="mb-2 d-flex align-items-center">
                             <input type="hidden" name="cartItemId" value="@item.CartItemId" />
                             <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control me-2" style="width: 80px;" />
                             <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
                         </form>
 
-                        <p class="mt-auto">Thành tiền: <strong>@(item.Drink.Price * item.Quantity) đ</strong></p>
+                        <p class="mt-auto">
+                            Thành tiền:
+                            <strong>@(((item.Drink.Price + item.ToppingPrice) * item.Quantity).ToString("N0")) đ</strong>
+                        </p>
 
                         <form asp-action="RemoveItem" method="post">
                             <input type="hidden" name="cartItemId" value="@item.CartItemId" />
@@ -39,4 +68,58 @@ else
             </div>
         }
     </div>
+
+    <!-- ✅ Nút mua hàng dùng JS để gửi danh sách item đã chọn -->
+    <div class="text-center mt-4">
+        <form asp-action="PlaceOrder" method="post" id="checkout-form">
+            <input type="hidden" name="selectedItemIds" id="selectedItemIds" />
+            <button type="submit" class="btn btn-success btn-lg" onclick="return prepareCheckout()">Mua hàng</button>
+        </form>
+    </div>
+    
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectAll = document.getElementById("selectAll");
+            const items = document.querySelectorAll(".selectedItem");
+
+            selectAll.addEventListener("change", function () {
+                items.forEach(i => i.checked = selectAll.checked);
+            });
+
+            items.forEach(i => {
+                i.addEventListener("change", function () {
+                    selectAll.checked = Array.from(items).every(c => c.checked);
+                });
+            });
+        });
+
+        function prepareCheckout() {
+            const selected = Array.from(document.querySelectorAll(".selectedItem:checked"))
+                .map(cb => cb.value);
+
+            if (selected.length === 0) {
+                const alertBox = document.getElementById("alertBox");
+                const alertMessage = document.getElementById("alertMessage");
+
+                if (alertMessage) {
+                    alertMessage.textContent = "Vui lòng chọn ít nhất một sản phẩm để mua.";
+                }
+                if (alertBox) {
+                    alertBox.classList.remove("d-none");
+                    alertBox.classList.add("show");
+                }
+                return false;
+            }
+            if (alertBox) {
+                alertBox.classList.add("d-none");
+                alertBox.classList.remove("show");
+            }
+
+            document.getElementById("selectedItemIds").value = selected.join(",");
+            return true;
+        }
+    </script>
 }

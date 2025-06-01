@@ -1,47 +1,39 @@
 ﻿@model IEnumerable<QLCafe.Models.OrderDetail>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Chi tiết các đơn hàng";
+    var grouped = Model.GroupBy(o => o.Order.OrderId);
 }
 
-<h1>Index</h1>
+<h1>Chi tiết đơn hàng (Admin)</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Order)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Drink)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Drink.Des)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderDetailId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OrderDetailId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OrderDetailId">Delete</a>
-            </td>
-        </tr>
+@foreach (var orderGroup in grouped)
+{
+    <h4 class="mt-4 text-primary">🧾 Đơn hàng ID: @orderGroup.Key - Khách: @orderGroup.First().Order?.User?.UserName</h4>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Đồ uống</th>
+                <th>Số lượng</th>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in orderGroup)
+            {
+                <tr>
+                    <td>@item.Drink?.DrinkName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Drink?.Des</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.OrderDetailId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.OrderDetailId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.OrderDetailId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>

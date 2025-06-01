@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLCafe.Data;
 
@@ -11,9 +12,11 @@ using QLCafe.Data;
 namespace QLCafe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528125332_ChangeToppingAndCartItemPriceToDecimal")]
+    partial class ChangeToppingAndCartItemPriceToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,10 +324,6 @@ namespace QLCafe.Migrations
 
                     b.Property<int>("ToppingId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("ToppingPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("CartItemToppingId");
 
